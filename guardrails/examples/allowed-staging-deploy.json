@@ -1,0 +1,11 @@
+{
+  "action_id": "0190c4a0-1111-7000-8000-000000000001",
+  "kind": "deploy",
+  "target": { "service": "registration-api", "environment": "staging" },
+  "risk": { "score": 20, "blast_radius": "service", "reversible": true },
+  "principal": {
+    "agent_id": "deploy-bot",
+    "capabilities": ["deploy:write"]
+  },
+  "justification": "routine promotion of main after green CI on PR #812"
+}

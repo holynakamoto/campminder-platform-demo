@@ -1,0 +1,16 @@
+{
+  "action_id": "0190c4a0-1111-7000-8000-000000000003",
+  "kind": "scale",
+  "target": { "service": "billing-worker", "environment": "prod" },
+  "risk": { "score": 85, "blast_radius": "service", "reversible": true },
+  "principal": {
+    "agent_id": "capacity-bot",
+    "capabilities": ["compute:scale"]
+  },
+  "justification": "queue depth exceeded SLO for 12m; scaling workers 3x per runbook RB-017",
+  "change_ticket": "CHG-4471",
+  "evidence": [
+    "https://grafana.campminder.example/d/billing-queue?from=now-30m",
+    "https://runbooks.campminder.example/RB-017"
+  ]
+}

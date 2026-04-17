@@ -1,0 +1,12 @@
+{
+  "action_id": "0190c4a0-1111-7000-8000-000000000002",
+  "kind": "deploy",
+  "target": { "service": "registration-api", "environment": "prod" },
+  "risk": { "score": 30, "blast_radius": "service", "reversible": true },
+  "principal": {
+    "agent_id": "deploy-bot",
+    "capabilities": ["deploy:write"],
+    "human_approver": "nick@campminder.example"
+  },
+  "justification": "promote staging build to prod after smoke tests passed"
+}

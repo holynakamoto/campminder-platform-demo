@@ -1,0 +1,25 @@
+{
+  "name": "@campminder/agents",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Claude-driven triage agent that emits typed AgentAction envelopes gated by the Campminder guardrails policy.",
+  "scripts": {
+    "build:policy": "./scripts/build-policy.sh",
+    "prestart": "npm run build:policy --silent",
+    "start": "tsx src/cli.ts",
+    "demo:allow": "npm start -- staging-deploy-ready",
+    "demo:deny": "npm start -- billing-queue-spike",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest",
+    "@open-policy-agent/opa-wasm": "latest",
+    "picocolors": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}

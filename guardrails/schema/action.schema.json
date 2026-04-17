@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://campminder.example/schemas/agent-action.v1.json",
+  "title": "AgentAction",
+  "description": "Intent envelope for any mutation an agent proposes against Campminder platform infrastructure. The envelope is the contract between the agent runtime (producers) and the deterministic guardrails layer (consumers). Every field is load-bearing for the policy in guardrails/policies/agent_actions.rego.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["action_id", "kind", "target", "risk", "principal", "justification"],
+  "properties": {
+    "action_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Stable identifier used for idempotency and audit joins."
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "deploy",
+        "rollback",
+        "scale",
+        "restart",
+        "mutate_config",
+        "run_migration",
+        "rotate_secret"
+      ]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["service", "environment"],
+      "properties": {
+        "service": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{1,39}$",
+          "description": "Kebab-case service slug as registered in the platform catalog."
+        },
+        "environment": { "type": "string", "enum": ["dev", "staging", "prod"] },
+        "region": { "type": "string" }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "blast_radius"],
+      "properties": {
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Agent-assessed risk. Thresholds enforced by policy, not convention."
+        },
+        "blast_radius": {
+          "type": "string",
+          "enum": ["single_pod", "service", "tenant", "region", "global"]
+        },
+        "reversible": { "type": "boolean" }
+      }
+    },
+    "principal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent_id", "capabilities"],
+      "properties": {
+        "agent_id": { "type": "string" },
+        "capabilities": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Signed capability tags (e.g. deploy:write, secret:rotate). Minted by the agent broker, not self-asserted."
+        },
+        "human_approver": {
+          "type": "string",
+          "description": "Email or SSO subject of the human who co-signed. Absent means autonomous."
+        }
+      }
+    },
+    "justification": {
+      "type": "string",
+      "minLength": 20,
+      "description": "Natural-language reasoning. Stored for postmortems; not parsed by policy."
+    },
+    "change_ticket": {
+      "type": "string",
+      "pattern": "^(CHG|INC)-\\d{4,}$"
+    },
+    "dry_run": { "type": "boolean", "default": false },
+    "evidence": {
+      "type": "array",
+      "description": "Citations the agent used to decide: log queries, metric snapshots, runbook links. Policy requires >=1 for mutate_config.",
+      "items": { "type": "string", "format": "uri" }
+    }
+  }
+}
