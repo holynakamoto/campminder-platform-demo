@@ -58,9 +58,12 @@
 
 ## Phase 5 — Interview polish
 
+- [x] Explainer deck covering all 5 phases — [docs/presentation.md](../docs/presentation.md) (Marp, 15 slides, plain English). Verified renders to HTML and exports to editable PPTX at [docs/presentation.pptx](../docs/presentation.pptx). PDF export available via `npx @marp-team/marp-cli docs/presentation.md --pdf`.
 - [ ] Flesh out top-level README table (problem → intent-driven fix)
 - [ ] Add a 60-second demo script to `README.md`
 - [ ] Tech-debt audit in this file
+
+**Note:** Phase 5 internally is "interview polish" (meta). In the audience-facing deck it's rebranded to **Rollout & adoption** — that's the substantive story (how teams opt in) rather than the meta (how we polish the demo).
 
 ---
 

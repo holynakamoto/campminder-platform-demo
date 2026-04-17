@@ -24,6 +24,23 @@ The narrative follows a fictional modernization of a legacy .NET monolith into a
 
 Track progress in [`tasks/todo.md`](./tasks/todo.md). Lessons and validated approaches live in [`tasks/lessons.md`](./tasks/lessons.md).
 
+## Explainer deck
+
+A plain-English walkthrough of the whole story across all five phases lives at [docs/presentation.md](./docs/presentation.md) (Marp). An editable PowerPoint export is checked in at [docs/presentation.pptx](./docs/presentation.pptx).
+
+To re-render after edits:
+
+```bash
+# Preview in browser
+npx @marp-team/marp-cli docs/presentation.md --preview
+
+# Export to PDF
+npx @marp-team/marp-cli docs/presentation.md --pdf
+
+# Export to PPTX (editable in Keynote/PowerPoint)
+npx @marp-team/marp-cli docs/presentation.md --pptx
+```
+
 ## Demo script (60 seconds)
 
 > *Coming in Phase 5.* The walkthrough will follow one action from an agent's first log-triage prompt, through schema validation, through the OPA decision, through a reusable gated-promotion workflow, into the extracted TS service behind the gateway.
